@@ -10,7 +10,7 @@ class QuestionAdmin(admin.ModelAdmin):
     list_display = ['text', 'sort_order', 'created_by', 'created_on',
                     'updated_by', 'updated_on', 'status']
     list_editable = ['sort_order', 'status']
-    if "redactormedia" in settings.INSTALLED_APPS:
+    if "redactormedia" in settings.INSTALLED_APPS and getattr(settings, "USE_REDACTOR_FACK", False):
         from redactormedia.widgets import RedactorWithMediaEditor, AdminRedactorWithMediaEditor
         from django.db import models
 
