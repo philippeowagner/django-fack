@@ -1,5 +1,5 @@
 from __future__ import absolute_import
-
+from django.conf import settings
 from django.contrib import admin
 from .models import Question, Topic
             
@@ -10,7 +10,14 @@ class QuestionAdmin(admin.ModelAdmin):
     list_display = ['text', 'sort_order', 'created_by', 'created_on',
                     'updated_by', 'updated_on', 'status']
     list_editable = ['sort_order', 'status']
+    if "redactormedia" in settings.INSTALLED_APPS:
+        from redactormedia.widgets import RedactorWithMediaEditor, AdminRedactorWithMediaEditor
+        from django.db import models
 
+        formfield_overrides = {
+            models.TextField: {'widget': AdminRedactorWithMediaEditor},
+        }
+        
     def save_model(self, request, obj, form, change): 
         '''
         Update created-by / modified-by fields.
